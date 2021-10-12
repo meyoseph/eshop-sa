@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from com.eshopaccountservice.eshopaccountservice.repository -->
 	</parent>
 	<groupId>com.shippingservice</groupId>
-	<artifactId>shipping-sa.product.service.productservice.service</artifactId>
+	<artifactId>shipping-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>shipping-sa.product.service.productservice.service</name>
+	<name>shipping-service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
