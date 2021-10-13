@@ -10,6 +10,10 @@
         <option value="$PROJECT_DIR$/eshop-spring-cloud-config-server/pom.xml" />
         <option value="$PROJECT_DIR$/eureka-naming-server/pom.xml" />
         <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/orderService/pom.xml" />
+        <option value="$PROJECT_DIR$/payment-service/pom.xml" />
+        <option value="$PROJECT_DIR$/transactionService/pom.xml" />
+        <option value="$PROJECT_DIR$/product-sevice2/pom.xml" />
       </list>
     </option>
   </component>

@@ -10,6 +10,6 @@ import miu.edu.sa.orderservice.model.Order;
 @NoArgsConstructor
 public class OrderResponse {
 
-   private Order order;
+   private Product product;
    private Payment payment;
 }

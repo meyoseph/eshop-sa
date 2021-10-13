@@ -1,40 +1,70 @@
 package miu.edu.sa.orderservice.service;
 
+import javassist.NotFoundException;
 import miu.edu.sa.orderservice.dto.OrderRequest;
 import miu.edu.sa.orderservice.dto.OrderResponse;
 import miu.edu.sa.orderservice.dto.Payment;
+import miu.edu.sa.orderservice.dto.Product;
 import miu.edu.sa.orderservice.model.Order;
 import miu.edu.sa.orderservice.proxy.PaymentProxy;
+import miu.edu.sa.orderservice.proxy.productProxy;
 import miu.edu.sa.orderservice.respository.OrderRepository;
-import org.springframework.http.ResponseEntity;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 @Service
 public class OrderService {
 
     private OrderRepository orderRepository;
     //private RestTemplate restTemplate;
-    private PaymentProxy proxy;
+    private PaymentProxy paymentProxy;
+    private productProxy productProxy;
 
-    public OrderService(OrderRepository orderRepository,PaymentProxy proxy) {
+   Logger logger = LoggerFactory.getLogger(OrderService.class);
+
+
+    public OrderService(OrderRepository orderRepository, PaymentProxy paymentProxy, productProxy productProxy) {
         this.orderRepository = orderRepository;
-        this.proxy=proxy;
+        this.paymentProxy = paymentProxy;
+        this.productProxy = productProxy;
     }
 
 
-    public OrderResponse placeOrder(OrderRequest orderRequest){
+    public OrderResponse placeOrder(OrderRequest orderRequest) throws NotFoundException {
 
         Order order = orderRequest.getOrder();
         Payment payment = orderRequest.getPayment();
         payment.setPaymentMethod(order.getPaymentMethod());
-//        ResponseEntity<Payment> response = restTemplate.postForEntity("http://localhost:9100/payment/makePayment",payment,Payment.class);
-//        Payment paymentResponse = response.getBody();
 
-        Payment paymentResponse = proxy.makePayment(payment);
+        Optional<Product> optionalProduct = Optional.ofNullable(productProxy.getProductById(order.getProductId()).getBody());
 
+
+        Product product;
+        Integer quantity;
+
+        if(optionalProduct.isPresent()) {
+            product = optionalProduct.get();
+
+            quantity = product.getQuantity()- order.getQuantity();
+            product.setQuantity(order.getQuantity());
+            Product p = productProxy.updateProduct(order.getProductId(),quantity).getBody();
+
+            logger.info(""+ product.getQuantity() + " " + order.getQuantity());
+        }
+        else {
+            throw new NotFoundException("there is no product with the given ID : "+ order.getProductId());
+        }
+
+        Payment paymentResponse = paymentProxy.makePayment(payment);
         orderRepository.save(order);
 
-        return new OrderResponse(order,paymentResponse);
+        logger.info("your order is placed successfully");
+
+        return new OrderResponse(product, paymentResponse);
+
     }
 }
