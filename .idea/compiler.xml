@@ -14,6 +14,7 @@
         <module name="orderService" />
         <module name="transactionService" />
         <module name="api-gateway" />
+        <module name="product-sevice2" />
         <module name="shipping-service" />
       </profile>
     </annotationProcessing>
@@ -26,6 +27,7 @@
       <module name="orderService" target="11" />
       <module name="payment-service" target="11" />
       <module name="product-service" target="11" />
+      <module name="product-sevice2" target="11" />
       <module name="SAMini" target="11" />
       <module name="shipping-service" target="11" />
       <module name="transactionService" target="11" />
@@ -41,6 +43,7 @@
       <module name="orderService" options="-parameters" />
       <module name="payment-service" options="-parameters" />
       <module name="product-service" options="-parameters" />
+      <module name="product-sevice2" options="-parameters" />
       <module name="shipping-service" options="-parameters" />
       <module name="transactionService" options="-parameters" />
     </option>

@@ -12,12 +12,12 @@
         <option value="$PROJECT_DIR$/orderService/pom.xml" />
         <option value="$PROJECT_DIR$/payment-service/pom.xml" />
         <option value="$PROJECT_DIR$/transactionService/pom.xml" />
+        <option value="$PROJECT_DIR$/product-sevice2/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/product-service/pom.xml" />
-        <option value="$PROJECT_DIR$/product-sevice2/pom.xml" />
       </set>
     </option>
   </component>

@@ -1,14 +1,50 @@
 version: "3.9"
 
 services:
-#  acs-mysql-standalone:
-#    image: 'mysql:5.7'
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=root
-#      - MYSQL_PASSWORD=root
-#      - MYSQL_DATABASE=accountdb
-#    ports:
-#      - "3307:3306"
+  acs-mysql-standalone:
+    image: 'mysql:5.7'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=accountdb
+    ports:
+      - "3307:3306"
+
+  acs-mysql-standalone-order:
+    image: 'mysql:5.7'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=orderdb
+    ports:
+      - "3308:3306"
+
+  acs-mysql-standalone-payment:
+    image: 'mysql:5.7'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=paymentdb
+    ports:
+      - "3309:3306"
+
+  acs-mysql-standalone-shipping:
+    image: 'mysql:5.7'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=shippingdb
+    ports:
+      - "3310:3306"
+
+  acs-mysql-standalone-product:
+    image: 'mysql:5.7'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=productdb
+    ports:
+      - "3311:3306"
 
   eureka-naming-server:
     image: meyoseph/mmv2-naming-server:0.0.1-SNAPSHOT
@@ -37,19 +73,22 @@ services:
 
   eshop-account-service:
     image: meyoseph/mmv2-eshop-account-service:0.0.1-SNAPSHOT
-    #command: sh -c './wait_for_it.sh acs-mysql-standalone:3306 --timeout=0 -- java -jar app.jar'
+    command: sh -c './wait_for_it.sh acs-mysql-standalone:3306 --timeout=0 -- java -jar app.jar'
     ports:
       - "8084:8084"
     networks:
       - eshop-network
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
-#      SPRING_DATASOURCE_URL: jdbc:mysql://acs-mysql-standalone:3306/accountdb?autoReconnect=true&useSSL=false
-#      SPRING_DATASOURCE_USERNAME: "root"
-#      SPRING_DATASOURCE_PASSWORD: "root"
+      SPRING_DATASOURCE_URL: jdbc:mysql://acs-mysql-standalone:3306/accountdb?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+      APP_JWTSECRET: JWTSuperSecretKey
+      APP_JWTEXPIRATIONINMS: 604800000
+      SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
     depends_on:
       - eureka-naming-server
-      #- acs-mysql-standalone
+      - acs-mysql-standalone
     build:
       context: "./eshop-account-service"
       dockerfile: "Dockerfile"
@@ -74,45 +113,60 @@ services:
 
   order-service:
     image: meyoseph/mmv2-order-service:0.0.1-SNAPSHOT
+    command: sh -c './wait_for_it.sh acs-mysql-standalone:3306 --timeout=0 -- java -jar app.jar'
     ports:
       - "9000:9000"
     networks:
       - eshop-network
     depends_on:
       - eureka-naming-server
+      - acs-mysql-standalone-order
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
       SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:mysql://acs-mysql-standalone-order:3306/orderdb?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
     build:
       context: "./orderService"
       dockerfile: "Dockerfile"
 
   payment-service:
     image: meyoseph/mmv2-payment-service:0.0.1-SNAPSHOT
+    command: sh -c './wait_for_it.sh acs-mysql-standalone:3306 --timeout=0 -- java -jar app.jar'
     ports:
       - "9100:9100"
     networks:
       - eshop-network
     depends_on:
       - eureka-naming-server
+      - acs-mysql-standalone-payment
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
       SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:mysql://acs-mysql-standalone-payment:3306/paymentdb?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
     build:
       context: "./payment-service"
       dockerfile: "Dockerfile"
 
   shipping-service:
     image: meyoseph/mmv2-shipping-service:0.0.1-SNAPSHOT
+    command: sh -c './wait_for_it.sh acs-mysql-standalone:3306 --timeout=0 -- java -jar app.jar'
     ports:
       - "8083:8083"
     networks:
       - eshop-network
     depends_on:
       - eureka-naming-server
+      - acs-mysql-standalone-shipping
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
       SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:mysql://acs-mysql-standalone-shipping:3306/shippingdb?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
     build:
       context: "./shipping-service"
       dockerfile: "Dockerfile"
@@ -128,9 +182,28 @@ services:
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
       SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
-
     build:
       context: "./transactionService"
+      dockerfile: "Dockerfile"
+
+  product-service2:
+    image: meyoseph/mmv2-product-sevice2:0.0.1-SNAPSHOT
+    command: sh -c './wait_for_it.sh acs-mysql-standalone:3306 --timeout=0 -- java -jar app.jar'
+    ports:
+      - "9090:9090"
+    networks:
+      - eshop-network
+    depends_on:
+      - eureka-naming-server
+      - acs-mysql-standalone-product
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
+      SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:mysql://acs-mysql-standalone-product:3306/productdb?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+    build:
+      context: "./product-sevice2"
       dockerfile: "Dockerfile"
 networks:
   eshop-network:
