@@ -4,7 +4,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/account-service/pom.xml" />
-        <option value="$PROJECT_DIR$/product-service/pom.xml" />
         <option value="$PROJECT_DIR$/shipping-service/pom.xml" />
         <option value="$PROJECT_DIR$/eshop-account-service/pom.xml" />
         <option value="$PROJECT_DIR$/eshop-spring-cloud-config-server/pom.xml" />
@@ -13,7 +12,6 @@
         <option value="$PROJECT_DIR$/orderService/pom.xml" />
         <option value="$PROJECT_DIR$/payment-service/pom.xml" />
         <option value="$PROJECT_DIR$/transactionService/pom.xml" />
-        <option value="$PROJECT_DIR$/product-sevice2/pom.xml" />
       </list>
     </option>
   </component>
