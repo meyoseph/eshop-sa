@@ -6,8 +6,10 @@
       <module fileurl="file://$PROJECT_DIR$/eshop-account-service/eshop-account-service.iml" filepath="$PROJECT_DIR$/eshop-account-service/eshop-account-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/eshop-spring-cloud-config-server/eshop-spring-cloud-config-server.iml" filepath="$PROJECT_DIR$/eshop-spring-cloud-config-server/eshop-spring-cloud-config-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/eureka-naming-server/eureka-naming-server.iml" filepath="$PROJECT_DIR$/eureka-naming-server/eureka-naming-server.iml" />
-      <module fileurl="file://$PROJECT_DIR$/product-service/product-service.iml" filepath="$PROJECT_DIR$/product-service/product-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/orderService/orderService.iml" filepath="$PROJECT_DIR$/orderService/orderService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/payment-service/payment-service.iml" filepath="$PROJECT_DIR$/payment-service/payment-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/shipping-service/shipping-service.iml" filepath="$PROJECT_DIR$/shipping-service/shipping-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/transactionService/transactionService.iml" filepath="$PROJECT_DIR$/transactionService/transactionService.iml" />
     </modules>
   </component>
 </project>

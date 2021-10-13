@@ -8,10 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eshop-account-service" />
-        <module name="api-gateway" />
-        <module name="product-service" />
         <module name="eshop-spring-cloud-config-server" />
+        <module name="payment-service" />
         <module name="eureka-naming-server" />
+        <module name="orderService" />
+        <module name="transactionService" />
+        <module name="api-gateway" />
         <module name="shipping-service" />
       </profile>
     </annotationProcessing>
@@ -21,9 +23,12 @@
       <module name="eshop-account-service" target="11" />
       <module name="eshop-spring-cloud-config-server" target="11" />
       <module name="eureka-naming-server" target="11" />
+      <module name="orderService" target="11" />
+      <module name="payment-service" target="11" />
       <module name="product-service" target="11" />
       <module name="SAMini" target="11" />
       <module name="shipping-service" target="11" />
+      <module name="transactionService" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -33,8 +38,11 @@
       <module name="eshop-account-service" options="-parameters" />
       <module name="eshop-spring-cloud-config-server" options="-parameters" />
       <module name="eureka-naming-server" options="-parameters" />
+      <module name="orderService" options="-parameters" />
+      <module name="payment-service" options="-parameters" />
       <module name="product-service" options="-parameters" />
       <module name="shipping-service" options="-parameters" />
+      <module name="transactionService" options="-parameters" />
     </option>
   </component>
 </project>

@@ -1,0 +1,136 @@
+version: "3.9"
+
+services:
+#  acs-mysql-standalone:
+#    image: 'mysql:5.7'
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=root
+#      - MYSQL_PASSWORD=root
+#      - MYSQL_DATABASE=accountdb
+#    ports:
+#      - "3307:3306"
+
+  eureka-naming-server:
+    image: meyoseph/mmv2-naming-server:0.0.1-SNAPSHOT
+    ports:
+      - "8761:8761"
+    networks:
+      - eshop-network
+    build:
+      context: "./eureka-naming-server"
+      dockerfile: "Dockerfile"
+
+  api-gateway:
+    image: meyoseph/mmv2-api-gateway:0.0.1-SNAPSHOT
+    ports:
+      - "8765:8765"
+    networks:
+      - eshop-network
+    depends_on:
+      - eureka-naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
+      SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
+    build:
+      context: "./api-gateway"
+      dockerfile: "Dockerfile"
+
+  eshop-account-service:
+    image: meyoseph/mmv2-eshop-account-service:0.0.1-SNAPSHOT
+    #command: sh -c './wait_for_it.sh acs-mysql-standalone:3306 --timeout=0 -- java -jar app.jar'
+    ports:
+      - "8084:8084"
+    networks:
+      - eshop-network
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
+#      SPRING_DATASOURCE_URL: jdbc:mysql://acs-mysql-standalone:3306/accountdb?autoReconnect=true&useSSL=false
+#      SPRING_DATASOURCE_USERNAME: "root"
+#      SPRING_DATASOURCE_PASSWORD: "root"
+    depends_on:
+      - eureka-naming-server
+      #- acs-mysql-standalone
+    build:
+      context: "./eshop-account-service"
+      dockerfile: "Dockerfile"
+
+  eshop-spring-cloud-config-server:
+    image: meyoseph/mmv2-eshop-spring-cloud-config-server:0.0.1-SNAPSHOT
+    ports:
+      - "8888:8888"
+    networks:
+      - eshop-network
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
+      SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT-LABEL: main
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: https://github.com/meyoseph/sa-spring-cloud-config-repo
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI_USERNAME: meyoseph
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI_PASSWORD: b1i2r3h4a5n6u7
+    depends_on:
+      - eureka-naming-server
+    build:
+      context: "./eshop-spring-cloud-config-server"
+      dockerfile: "Dockerfile"
+
+  order-service:
+    image: meyoseph/mmv2-order-service:0.0.1-SNAPSHOT
+    ports:
+      - "9000:9000"
+    networks:
+      - eshop-network
+    depends_on:
+      - eureka-naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
+      SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
+    build:
+      context: "./orderService"
+      dockerfile: "Dockerfile"
+
+  payment-service:
+    image: meyoseph/mmv2-payment-service:0.0.1-SNAPSHOT
+    ports:
+      - "9100:9100"
+    networks:
+      - eshop-network
+    depends_on:
+      - eureka-naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
+      SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
+    build:
+      context: "./payment-service"
+      dockerfile: "Dockerfile"
+
+  shipping-service:
+    image: meyoseph/mmv2-shipping-service:0.0.1-SNAPSHOT
+    ports:
+      - "8083:8083"
+    networks:
+      - eshop-network
+    depends_on:
+      - eureka-naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
+      SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
+    build:
+      context: "./shipping-service"
+      dockerfile: "Dockerfile"
+
+  transaction-service:
+    image: meyoseph/mmv2-transaction-service:0.0.1-SNAPSHOT
+    ports:
+      - "9200:9200"
+    networks:
+      - eshop-network
+    depends_on:
+      - eureka-naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-naming-server:8761/eureka
+      SPRING_CONFIG_IMPORT: optional:configserver:http//eshop-spring-cloud-config-server:8888
+
+    build:
+      context: "./transactionService"
+      dockerfile: "Dockerfile"
+networks:
+  eshop-network:
