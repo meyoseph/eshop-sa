@@ -1,9 +1,0 @@
-/Users/xxx/Documents/miu/sa/min-pro-2/eShopProject/orderService/src/main/java/miu/edu/sa/orderservice/controller/OrderController.java
-/Users/xxx/Documents/miu/sa/min-pro-2/eShopProject/orderService/src/main/java/miu/edu/sa/orderservice/proxy/PaymentProxy.java
-/Users/xxx/Documents/miu/sa/min-pro-2/eShopProject/orderService/src/main/java/miu/edu/sa/orderservice/OrderServiceApplication.java
-/Users/xxx/Documents/miu/sa/min-pro-2/eShopProject/orderService/src/main/java/miu/edu/sa/orderservice/dto/Payment.java
-/Users/xxx/Documents/miu/sa/min-pro-2/eShopProject/orderService/src/main/java/miu/edu/sa/orderservice/dto/OrderRequest.java
-/Users/xxx/Documents/miu/sa/min-pro-2/eShopProject/orderService/src/main/java/miu/edu/sa/orderservice/dto/OrderResponse.java
-/Users/xxx/Documents/miu/sa/min-pro-2/eShopProject/orderService/src/main/java/miu/edu/sa/orderservice/respository/OrderRepository.java
-/Users/xxx/Documents/miu/sa/min-pro-2/eShopProject/orderService/src/main/java/miu/edu/sa/orderservice/service/OrderService.java
-/Users/xxx/Documents/miu/sa/min-pro-2/eShopProject/orderService/src/main/java/miu/edu/sa/orderservice/model/Order.java

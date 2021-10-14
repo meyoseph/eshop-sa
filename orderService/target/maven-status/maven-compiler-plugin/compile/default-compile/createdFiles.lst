@@ -1,9 +1,0 @@
-miu/edu/sa/orderservice/model/Order.class
-miu/edu/sa/orderservice/service/OrderService.class
-miu/edu/sa/orderservice/dto/OrderResponse.class
-miu/edu/sa/orderservice/OrderServiceApplication.class
-miu/edu/sa/orderservice/dto/OrderRequest.class
-miu/edu/sa/orderservice/controller/OrderController.class
-miu/edu/sa/orderservice/proxy/PaymentProxy.class
-miu/edu/sa/orderservice/dto/Payment.class
-miu/edu/sa/orderservice/respository/OrderRepository.class

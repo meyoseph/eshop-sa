@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: miu.edu.sa.orderservice.OrderServiceApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.131 s - in miu.edu.sa.orderservice.OrderServiceApplicationTests
